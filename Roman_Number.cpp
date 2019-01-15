@@ -20,24 +20,34 @@ int main()
 	printf("%s", "Enter the Roman Number : ");
 	scanf("%[^\n]s", roman_number);
 
+	//Check if user has input any string.
 	if (strlen(roman_number) == 0)
 	{
 		printf("%s\n", "No input from user");
 		return 0;
 	}
 
+	//Check if user has entered valid roman letters ie. roman_number string contains only following characters. I, V, X, L, C, D, M.
 	if (validRomanLetters(roman_number) == 0)
 		return 0;
 
+	//Check if any roman digit is not repeated more than 3 times.
 	if (countSequence(roman_number) == 0)
 		return 0;
 
+	/*Check the precedence of roman letters.
+	  Precedence rule :
+	  "I" can precede "V" and "X"
+	  "X" can precede "L" and "C"
+	  "C" can precede "D" and "M"*/
 	if (testForPrecedence(roman_number) == 0)
 		return 0;
 
+	//Test for some invalid sequence in roman numbers.
 	if (checkForInvalidSequence(roman_number) == 0)
 		return 0;
 
+	//Convert the roman number to decimal number.
 	convertToDecimal(roman_number);
 
 	return 0;
@@ -46,6 +56,8 @@ int main()
 
 int validRomanLetters(char roman_number[])
 {
+
+	//Check if roman number is formed from letters I, V, X, L, C, D, M only.
 	int len_roman, i;
 
 	len_roman = strlen(roman_number);
@@ -88,6 +100,7 @@ int validRomanLetters(char roman_number[])
 int countSequence(char roman_number[])
 {
 
+	//Check if roman digit in roman number is repeated more than 3 times.
 	int i, j, len_roman, counter;
 
 	len_roman = strlen(roman_number);
@@ -119,6 +132,7 @@ int countSequence(char roman_number[])
 				else
 					break;
 
+			//If counter value is more than 3 error message will be printed.
 			if (counter > 3)
 			{
 				printf("Roman literal %c cannot be repeated more than 3 times in a sequence.", roman_number[i]);
@@ -135,6 +149,8 @@ int countSequence(char roman_number[])
 
 	return 1;
 }
+
+
 
 int testForPrecedence(char roman_number[])
 {
@@ -254,13 +270,10 @@ void convertToDecimal(char roman_number[])
 
 	len_roman = strlen(roman_number);
 
-	if (len_roman == 1)
-		decimalValue = toDigit(roman_number[0]);
-	
 
 	for (i = (len_roman - 1); i >= 0; i--)
 	{
-		if (i == (len_roman -1))
+		if (i == (len_roman - 1))
 			decimalValue = toDigit(roman_number[i]);
 
 		else
